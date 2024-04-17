@@ -1,3 +1,4 @@
+/* eslint-disable */
 import store from "@/state/store";
 
 export default [
@@ -5,20 +6,6 @@ export default [
     path: "/login",
     name: "login",
     component: () => import("../views/account/login.vue"),
-    meta: {
-      title: "Login",
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters["auth/loggedIn"]) {
-          // Redirect to the home page instead
-          next({ name: "default" });
-          next();
-        } else {
-          // Continue to the login page
-          next();
-        }
-      },
-    },
   },
   {
     path: "/register",
@@ -26,16 +13,6 @@ export default [
     component: () => import("../views/account/register.vue"),
     meta: {
       title: "Register",
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters["auth/loggedIn"]) {
-          // Redirect to the home page instead
-          next({ name: "default" });
-        } else {
-          // Continue to the login page
-          next();
-        }
-      },
     },
   },
   {
@@ -44,24 +21,14 @@ export default [
     component: () => import("../views/account/forgot-password.vue"),
     meta: {
       title: "Forgot Password",
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters["auth/loggedIn"]) {
-          // Redirect to the home page instead
-          next({ name: "default" });
-        } else {
-          // Continue to the login page
-          next();
-        }
-      },
     },
   },
   {
-    path: "/",
-    name: "default",
+    path: "/dashboard",
+    name: "dashboard",
     meta: {
       title: "Dashboard",
-      authRequired: true,
+      // authRequired: true,
     },
     component: () => import("../views/dashboard/ecommerce/index.vue"),
   },

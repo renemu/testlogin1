@@ -1,81 +1,53 @@
 <script>
-/* eslint-disable */
-// import Swal from "sweetalert2";
-
-import axios from "axios";
+// import { required, helpers } from "@vuelidate/validators";
+import apiClient from "../../service/apiClientService";
+import Swal from "sweetalert2";
+import router from "../../router";
 
 export default {
   data() {
     return {
-      email: "",
+      user_identity: null,
       password: "",
-      error: "",
-      loading: false,
+      submitted: false,
+      processing: false,
     };
   },
   methods: {
-    async tryToLogIn() {
-      this.loading = true;
-
-      try {
-        const response = await axios
-          .post(
-            "https://dev-backend-arjuna.gawebecik.id/api/auth/login",
-            {
-              user_identity: this.email,
-              password: this.password,
-            },
-          )
-          .catch((e) => {
-            console.log("axios post exception", e);
-          });
-
-        const res = response.data;
-        const token = res.data.token;
-
-        axios.defaults.headers.common["Authorization"] = token;
-
-        localStorage.setItem("token", token);
-        // console.log("asdadadsa");
-        this.$router.push({ name: "default" });
-
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          // Swal.fire({
-          //   title: "Not Found",
-          //   text: "The requested resource was not found.",
-          //   icon: "error",
-          // });
-          // alert('Tidak ditemukan 404')
-        } else if (error.response && error.response.status === 500) {
-          // Swal.fire({
-          //   title: "Internal Server Error",
-          //   text: "Check Internet Connection!",
-          //   icon: "error",
-          // });
-          // alert('Server Error 500')
-        } else if (error.response && error.response.status === 502) {
-          // Swal.fire({
-          //   title: "Bad Gateway",
-          //   text: "The server is currently unavailable (Bad Gateway).",
-          //   icon: "error",
-          // });
-          // alert('Error 502')
-        } else {
-          // Swal.fire({
-          //   title: "Invalid!",
-          //   text: "Invalid Account Data",
-          //   icon: "error",
-          // });
-          // alert('Email atau Password tidak valid')
-        }
-      } finally {
-        this.loading = false;
-      }
+    signIn() {
+      let loginData = {
+        user_identity: this.user_identity,
+        password: this.password,
+      };
+      this.processing = true;
+      apiClient
+        .post("https://dev-backend-arjuna.gawebecik.id/api/auth/login", loginData, { authorization: false })
+        .then((response) => {
+          localStorage.setItem("token", JSON.stringify(response.data.token));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("avatar", response.data.user.avatar);
+          localStorage.setItem("role", JSON.stringify(response.data.role));
+          localStorage.setItem(
+            "settings",
+            JSON.stringify(response.data.settings)
+          );
+          localStorage.setItem(
+            "permissions",
+            JSON.stringify(response.data.permissions)
+          );
+          router.push("/dashboard");
+        })
+        .catch((error) => {
+          if (error.response != undefined) {
+            Swal.fire("Error", error.response.data.message, "error");
+          }
+        })
+        .finally(() => (this.processing = false));
     },
-  },
+  },
 };
 </script>
+
 
 <template>
   <div class="auth-page-wrapper pt-5">
@@ -83,10 +55,13 @@ export default {
       <div class="bg-overlay"></div>
 
       <div class="shape">
-
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 1440 120">
-          <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
+          <path
+            d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
         </svg>
       </div>
     </div>
@@ -99,7 +74,10 @@ export default {
               <div>
                 <router-link to="/" class="d-inline-block auth-logo">
                   <!-- <p><h1>LOGIN</h1></p> -->
-                  <img src="@/assets/images/logo-light.png" alt="" height="20" />
+                  <img
+                    src="@/assets/images/logo-light.png"
+                    alt=""
+                    height="20" />
                 </router-link>
               </div>
               <p class="mt-3 fs-15 fw-medium">
@@ -118,29 +96,40 @@ export default {
                   <p class="text-muted">Sign in to continue</p>
                 </div>
                 <div class="p-2 mt-4">
-                  <b-alert v-model="authError" variant="danger" class="mt-3" dismissible>{{ authError }}</b-alert>
+                  <div></div>
 
-                  <div>
-
-                  </div>
-
-                  <form @submit.prevent="tryToLogIn">
+                  <form @submit.prevent="signIn">
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="Enter email" v-model="email" required/>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="Enter email"
+                        v-model="user_identity"
+                        required />
                       <div class="invalid-feedback">
                         <span></span>
                       </div>
                     </div>
 
                     <div class="mb-3">
-                      
-                      <label class="form-label" for="password-input">Password</label>
+                      <label class="form-label" for="password-input"
+                        >Password</label
+                      >
                       <div class="position-relative auth-pass-inputgroup mb-3">
-                        <input type="password" v-model="password" class="form-control pe-5" placeholder="Enter password"
-                          id="password-input" required />
-                        <BButton variant="link" class="position-absolute end-0 top-0 text-decoration-none text-muted"
-                          type="button" id="password-addon" >
+                        <input
+                          type="password"
+                          v-model="password"
+                          class="form-control pe-5"
+                          placeholder="Enter password"
+                          id="password-input"
+                          required />
+                        <BButton
+                          variant="link"
+                          class="position-absolute end-0 top-0 text-decoration-none text-muted"
+                          type="button"
+                          id="password-addon">
                         </BButton>
                         <div class="invalid-feedback">
                           <span></span>
@@ -148,19 +137,16 @@ export default {
                       </div>
                     </div>
                     <div class="form-label float-end">
-                        <router-link to="/forgot-password" class="text-muted">Forgot
-                          password?</router-link>
-                          
-                      </div>
-                    
+                      <router-link to="/forgot-password" class="text-muted"
+                        >Forgot password?</router-link
+                      >
+                    </div>
 
                     <div class="mt-4">
                       <BButton variant="success" class="w-100" type="submit">
                         Sign In
                       </BButton>
                     </div>
-
-             
                   </form>
                 </div>
               </BCardBody>
@@ -169,8 +155,9 @@ export default {
             <div class="mt-4 text-center">
               <p class="mb-0">
                 Don't have an account ?
-                <router-link to="/register" class="fw-semibold text-primary
-                  text-decoration-underline">
+                <router-link
+                  to="/register"
+                  class="fw-semibold text-primary text-decoration-underline">
                   Signup
                 </router-link>
               </p>
