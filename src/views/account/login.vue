@@ -180,7 +180,7 @@ export default {
       </BContainer>
     </div>
 
-    <!-- <footer class="footer">
+    <footer class="footer">
       <BContainer>
         <BRow>
           <BCol lg="12">
@@ -193,6 +193,6 @@ export default {
           </BCol>
         </BRow>
       </BContainer>
-    </footer> -->
+    </footer>
   </div>
 </template>
