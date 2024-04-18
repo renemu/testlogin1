@@ -150,7 +150,7 @@ export default {
           <span data-key="t-menu"> {{ $t("t-menu") }}</span>
         </li>
         <li class="nav-item">
-          <router-link to="/" class="nav-link menu-link" >
+          <router-link to="/dashboard" class="nav-link menu-link" >
             <i class="ri-dashboard-2-line"></i>      
             <span>Dashboards</span>
                 </router-link>

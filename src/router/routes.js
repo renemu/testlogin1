@@ -28,16 +28,34 @@ export default [
     name: "dashboard",
     meta: {
       title: "Dashboard",
-      // authRequired: true,
+      authRequired: true,
     },
     component: () => import("../views/dashboard/ecommerce/index.vue"),
+  },
+  // {
+  //   path: "/",
+  //   redirect: { name: "auth.login" },
+  //   name: "index",
+  // },
+  {
+    path: "/auth",
+    children: [
+      {
+        path: "login",
+        name: "auth.login",
+        component: () => import("../views/account/login.vue"),
+        meta: {
+          title: "Login",
+        },
+      },
+    ],
   },
   {
     path: "/user",
     name: "user",
     meta: {
       title: "User",
-      authRequired: true,
+      // authRequired: true,
     },
     component: () => import("../views/user/index.vue"),
   },

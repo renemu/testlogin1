@@ -26,22 +26,22 @@ const router = createRouter({
 
 // API based Authentication
 // Before each route evaluates...
-router.beforeEach(async (routeTo, routeFrom, next) => {
+// router.beforeEach(async (routeTo, routeFrom, next) => {
 
-  const authRequired = routeTo.matched.some((route) => route.meta.authRequired);
+//   const authRequired = routeTo.matched.some((route) => route.meta.authRequired);
   
-  if (!authRequired) return next();
+//   if (!authRequired) return next();
   
-  axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('jwt'); // for all requests
-  await axios.get('https://api-node.themesbrand.website/profile').then((data) => {
-    localStorage.setItem('userdata', JSON.stringify(data.data.user));
-    localStorage.setItem('userid', data.data.user._id);
-    localStorage.setItem('user', JSON.stringify(data.data.user));
-    next();
-  }).catch(() => {
-    next({ name: 'login', query: { redirectFrom: routeTo.fullPath } });
-  });
-});
+//   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('jwt'); // for all requests
+//   await axios.get('https://api-node.themesbrand.website/profile').then((data) => {
+//     localStorage.setItem('userdata', JSON.stringify(data.data.user));
+//     localStorage.setItem('userid', data.data.user._id);
+//     localStorage.setItem('user', JSON.stringify(data.data.user));
+//     next();
+//   }).catch(() => {
+//     next({ name: 'login', query: { redirectFrom: routeTo.fullPath } });
+//   });
+// });
 
 router.beforeEach((routeTo, routeFrom, next) => {
   if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {

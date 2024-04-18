@@ -38,3 +38,55 @@ export const todoComputed = {
   })
 }
 export const todoMethods = mapActions('todo', ['fetchTodos'])
+
+// PRODUCT HELPERS
+
+// Product --> Product
+
+export const elektronikComputed = {
+  ...mapState("elektronik/elektronik", {
+    elektronik: (state) => state.elektronik,
+    elektroniks: (state) => state.elektroniks
+    // groups: (state) => state.groups,
+    // pricings: (state) => state.pricings,
+    // units: (state) => state.units,
+    // detail: (state) => state.detail,
+  }),
+  ...mapGetters("elektronik/elektronik", [
+    "elektroniks",
+    "elektronik",
+    // "groups",
+    // "pricings",
+    // "units",
+    // "detail",
+  ]),
+};
+
+export const elektronikMethods = mapActions("elektronik/elektronik", [
+  "fetchElektroniks"
+]);
+
+// actress --> actress
+
+export const actressComputed = {
+  ...mapState("actress/actress", {
+    actress: (state) => state.actress,
+    actresses: (state) => state.actresses
+    // groups: (state) => state.groups,
+    // pricings: (state) => state.pricings,
+    // units: (state) => state.units,
+    // detail: (state) => state.detail,
+  }),
+  ...mapGetters("actress/actress", [
+    "actresses",
+    "actress",
+    // "groups",
+    // "pricings",
+    // "units",
+    // "detail",
+  ]),
+};
+
+export const actressMethods = mapActions("actress/actress", [
+  "fetchActresses"
+]);

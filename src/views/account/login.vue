@@ -1,5 +1,5 @@
 <script>
-// import { required, helpers } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import apiClient from "../../service/apiClientService";
 import Swal from "sweetalert2";
 import router from "../../router";
@@ -9,10 +9,20 @@ export default {
     return {
       user_identity: null,
       password: "",
+      authError: false,
       submitted: false,
       processing: false,
     };
   },
+  validations: {
+    user_identity: {
+      required: helpers.withMessage("User Identity is required", required),
+    },
+    password: {
+      required: helpers.withMessage("Password is required", required),
+    },
+  },
+    computed: {},
   methods: {
     signIn() {
       let loginData = {
@@ -73,7 +83,7 @@ export default {
             <div class="text-center mt-sm-5 mb-4 text-white-50">
               <div>
                 <router-link to="/" class="d-inline-block auth-logo">
-                  <!-- <p><h1>LOGIN</h1></p> -->
+                  
                   <img
                     src="@/assets/images/logo-light.png"
                     alt=""
@@ -96,6 +106,13 @@ export default {
                   <p class="text-muted">Sign in to continue</p>
                 </div>
                 <div class="p-2 mt-4">
+                  <b-alert
+                    v-model="authError"
+                    variant="danger"
+                    class="mt-3"
+                    dismissible
+                    >{{ authError }}</b-alert
+                  >
                   <div></div>
 
                   <form @submit.prevent="signIn">
@@ -143,8 +160,13 @@ export default {
                     </div>
 
                     <div class="mt-4">
-                      <BButton variant="success" class="w-100" type="submit">
-                        Sign In
+                      <BButton
+                        variant="success"
+                        class="w-100"
+                        type="submit"
+                        :disabled="processing"
+                      >
+                        {{ processing ? "Please wait" : "Sign In" }}
                       </BButton>
                     </div>
                   </form>

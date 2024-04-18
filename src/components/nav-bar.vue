@@ -59,47 +59,47 @@ export default {
         },
       ],
 
-      languages: [{
-        flag: require("@/assets/images/flags/us.svg"),
-        language: "en",
-        title: "English",
-      },
-      {
-        flag: require("@/assets/images/flags/spain.svg"),
-        language: "sp",
-        title: "Española",
-      },
-      {
-        flag: require("@/assets/images/flags/germany.svg"),
-        language: "gr",
-        title: "Deutsche",
-      },
-      {
-        flag: require("@/assets/images/flags/italy.svg"),
-        language: "it",
-        title: "italiana",
-      },
-      {
-        flag: require("@/assets/images/flags/russia.svg"),
-        language: "ru",
-        title: "русский",
-      },
-      {
-        flag: require("@/assets/images/flags/china.svg"),
-        language: "ch",
-        title: "中國人",
-      },
-      {
-        flag: require("@/assets/images/flags/french.svg"),
-        language: "fr",
-        title: "Français",
-      },
-      {
-        flag: require("@/assets/images/flags/ae.svg"),
-        language: "ar",
-        title: "Arabic",
-      },
-      ],
+      // languages: [{
+      //   flag: require("@/assets/images/flags/us.svg"),
+      //   language: "en",
+      //   title: "English",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/spain.svg"),
+      //   language: "sp",
+      //   title: "Española",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/germany.svg"),
+      //   language: "gr",
+      //   title: "Deutsche",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/italy.svg"),
+      //   language: "it",
+      //   title: "italiana",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/russia.svg"),
+      //   language: "ru",
+      //   title: "русский",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/china.svg"),
+      //   language: "ch",
+      //   title: "中國人",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/french.svg"),
+      //   language: "fr",
+      //   title: "Français",
+      // },
+      // {
+      //   flag: require("@/assets/images/flags/ae.svg"),
+      //   language: "ar",
+      //   title: "Arabic",
+      // },
+      // ],
       lan: i18n.locale,
       text: null,
       flag: null,
@@ -265,14 +265,14 @@ export default {
     },
   },
   mounted() {
-    if (process.env.VUE_APP_I18N_LOCALE) {
-      this.flag = process.env.VUE_APP_I18N_LOCALE;
-      this.languages.forEach((item) => {
-        if (item.language == this.flag) {
-          document.getElementById("header-lang-img").setAttribute("src", item.flag);
-        }
-      });
-    }
+    // if (process.env.VUE_APP_I18N_LOCALE) {
+    //   this.flag = process.env.VUE_APP_I18N_LOCALE;
+    //   this.languages.forEach((item) => {
+    //     if (item.language == this.flag) {
+    //       document.getElementById("header-lang-img").setAttribute("src", item.flag);
+    //     }
+    //   });
+    // }
 
     document.addEventListener("scroll", function () {
       var pageTopbar = document.getElementById("page-topbar");
@@ -430,7 +430,7 @@ export default {
               </form>
             </BDropdownItem>
           </BDropdown>
-
+<!-- 
           <BDropdown class="dropdown" variant="ghost-secondary" dropstart
             :offset="{ alignmentAxis: 55, crossAxis: 15, mainAxis: -50 }"
             toggle-class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle arrow-none"
@@ -444,7 +444,7 @@ export default {
               <img :src="entry.flag" alt="user-image" class="me-2 rounded" height="18">
               <span class="align-middle">{{ entry.title }}</span>
             </BLink>
-          </BDropdown>
+          </BDropdown> -->
 
           <BDropdown class="dropdown" variant="ghost-secondary" dropstart
             :offset="{ alignmentAxis: 57, crossAxis: 0, mainAxis: -42 }"
@@ -512,7 +512,7 @@ export default {
             </div>
           </BDropdown>
 
-          <BDropdown variant="ghost-secondary" dropstart :offset="{ alignmentAxis: 57, crossAxis: 0, mainAxis: -42 }"
+          <!-- <BDropdown variant="ghost-secondary" dropstart :offset="{ alignmentAxis: 57, crossAxis: 0, mainAxis: -42 }"
             class="ms-1 dropdown" toggle-class="btn-icon btn-topbar rounded-circle mode-layout arrow-none"
             menu-class="dropdown-menu-xl dropdown-menu-end p-0" text="Manual close (auto-close=false)"
             auto-close="outside">
@@ -584,7 +584,7 @@ export default {
                 Checkout
               </router-link>
             </div>
-          </BDropdown>
+          </BDropdown> -->
 
           <div class="ms-1 header-item d-none d-sm-flex">
             <BButton type="button" variant="ghost-secondary" class="btn-icon btn-topbar rounded-circle"

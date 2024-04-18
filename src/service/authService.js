@@ -1,5 +1,5 @@
 import router from "../router/index";
-import apiClient from "./ApiClientService";
+import apiClient from "./apiClientService";
 import Swal from "sweetalert2";
 
 const logout = async () => {
