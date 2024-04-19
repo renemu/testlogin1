@@ -6,7 +6,7 @@ import appConfig from "../../app.config";
 import store from '@/state/store';
 
 const router = createRouter({
-  history: createWebHistory('/velzon/vuejs/default/'),
+  history: createWebHistory('/'),
   routes,
   // Use the HTML5 history API (i.e. normal-looking routes)
   // instead of routes with hashes (e.g. example.com/#/about).
