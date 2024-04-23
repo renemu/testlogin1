@@ -60,6 +60,24 @@ export default [
     component: () => import("../views/user/index.vue"),
   },
   {
+    path: "/dashboard",
+    name: "channel.index",
+    meta: {
+      title: "Channel List",
+      // authRequired: true,
+    },
+    component: () => import("../views/dashboard/ecommerce/index.vue"),
+  },
+  {
+    path: "/detail/:id",
+    name: "channel.detail",
+    meta: {
+      title: "Detail",
+      // authRequired: true,
+    },
+    component: () => import("../views/channel/detail.vue"),
+  },
+  {
     path: "/dashboard/crypto",
     name: "dashboard-crypto",
     meta: {

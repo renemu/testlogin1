@@ -1,6 +1,5 @@
-// import axios from "axios";
+import axios from "axios";
 import Swal from "sweetalert2";
-import apiClient from "../../../service/apiClientService";  
 
 export const state = {
     elektronik: {},
@@ -22,7 +21,7 @@ export const state = {
 
   export const actions = {
     fetchElektroniks({ commit }) {
-      apiClient.get("/marketings/channel/channels")
+    axios.get("https://freetestapi.com/api/v1/products")
       .then((res) => {
         commit("setElektroniks", res.data);
       })

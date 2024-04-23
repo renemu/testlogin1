@@ -7,15 +7,14 @@ import ClientDatatable from "@/components/datatables/DatatableClient.vue";
 /* eslint-disable */
 // import Vue from 'vue';
 import Layout from "@/layouts/main.vue";
+import PageHeader from "@/components/page-header";
 import axios from "axios";
 import { channelComputed, channelMethods } from "@/state/helpers.js";
-import BasicInput from "@/components/inputs/basic.vue";
-import ModalBasic from "@/components/modals/basic.vue";
-import PageHeader from "@/components/page-header.vue";
-import BaseCard from "@/components/cards/base-card.vue";
-// import vSelect from "vue-select";
-// import "vue-select/dist/vue-select.css";
-
+import BasicInput from "../../components/inputs/basic.vue";
+import BaseCard from "../../components/cards/base-card.vue";
+// import Swal from "sweetalert2";
+import ModalBasic from "../../components/modals/basic.vue";
+// import AdminActionButton from "../../../components/buttons/adminActionButton.vue";
 
 export default {
   components: {
@@ -23,7 +22,7 @@ export default {
     PageHeader,
     BaseCard,
     BasicInput,
-    ModalBasic,
+    // ModalBasic,
   },
   data(){
     return {
@@ -49,24 +48,6 @@ export default {
           placeholder: "Channel Url",
           required: false,
         },
-        {
-          id: 3,
-          label: "Type",
-          name: "type",
-          inputType: "text",
-          modelValue: "",
-          placeholder: "Type",
-          required: true,
-        },
-        {
-          id: 4,
-          label: "Platform",
-          name: "platform",
-          inputType: "text",
-          modelValue: "",
-          placeholder: "Platform",
-          required: true,
-        },
       ],
       columns: [
         {
@@ -77,54 +58,37 @@ export default {
           filterable: true,
         },
         {
-          name: "display_name",
-          label: "Display Name",
-          sortable: true,
-          filterable: true,
-          custom: {
-            icon: "orange ri-typhoon-line align-bottom me-1",
-            routeName: "channel.detail",
-            params: "id",
-          },
-        },
-        {
           name: "name",
           label: "Name",
           sortable: true,
           filterable: true,
-          class: "text-end",
-          headerClass: "text-center",
         },
         {
-          name: "type",
-          label: "Type",
+          name: "brand",
+          label: "Brand",
           sortable: true,
           filterable: true,
           class: "text-end",
           headerClass: "text-center",
         },
         {
-          name: "platform",
-          label: "Platform",
+          name: "connectivity",
+          label: "Connectivity",
+          sortable: true,
+          filterable: true,
+          class: "text-end",
+          headerClass: "text-center",
+        },
+        {
+          name: "description",
+          label: "Description",
           sortable: true,
           filterable: true,
           class: "text-end",
           headerClass: "text-center",
         },
       ],
-      options: {
-        responsive: true,
-        select: true,
-        autoWidth: false,
-        language: {
-          search: "Search",
-          zeroRecords: "No Data Found",
-          info: "Showing _START_ of _END_ of _TOTAL_ entries",
-          infoFiltered: "filtered _MAX_ records",
-        },
-        order: [[0, "asc"]],
-      },
-    };
+    }
   },
   // methods: {
   //   fetchData() {
@@ -164,28 +128,28 @@ export default {
     }
   // this.fetchElektroniks()
     // this.fetchData();
-  },
-  mounted(){
-    this.fetchChannels()
-    // this.fetchParams()
-  }
+},
+mounted(){
+  this.fetchChannels()
+  this.fetchParams()
+
+},
 };
 
 </script>
 
-
 <template>
   <Layout>
-    <PageHeader title="User List" pageTitle="User"/>
+    <PageHeader title="Channel List" pageTitle="Channel"/>
     <div class="row">
       <BaseCard>
         <template #cardBody>
-          <PageHeader title="Product List" />
-    <div class="row">
+          <PageHeader title="Channel List" />
+      <div class="row">
       <BaseCard :tableCard="true" :noFooter="true">
         <template #cardButton>
           <button class="btn btn-primary" @click="clear">
-            <i class="ri-add-circle-line align-bottom me-1"></i>Add Products
+            <i class="ri-add-circle-line align-bottom me-1"></i>Add Channel
           </button>
         </template>
         <template #cardBody>
@@ -210,7 +174,27 @@ export default {
               :required="input.required"
             />
           </div>
-          
+          <div class="mt-1">
+            <label for="platform">Platform</label>
+            <vSelect
+              id="platform"
+              name="platform"
+              v-model="formData.platform"
+              :options="params.platform"
+              :reduce="(data) => data.value"
+              placeholder="Select platform"
+            >
+              <template #search="{ attributes, events }">
+                <input
+                  class="vs__search"
+                  :required="!formData.platform"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template>
+            </vSelect>
+          </div>
+         
         </form>
       </template>
       <template #footer>

@@ -39,6 +39,31 @@ export const todoComputed = {
 }
 export const todoMethods = mapActions('todo', ['fetchTodos'])
 
+export const channelComputed = {
+  ...mapState("channels/channel", {
+    channel: (state) => state.channel,
+    channels: (state) => state.channels,
+    params: (state) => state.params,
+    detailChannel: (state) => state.detailChannel,
+  }),
+  ...mapGetters("channels/channel", [
+    "channels",
+    "channel",
+    "detailChannel",
+    "params",
+  ]),
+};
+
+export const channelMethods = mapActions("channels/channel", [
+  "fetchChannels",
+  "fetchParams",
+  "detailChannel",
+  "setDataChannel",
+  "deleteChannel",
+  "createChannel",
+  "updateChannel",
+]);
+
 // PRODUCT HELPERS
 
 // Product --> Product
