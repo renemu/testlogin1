@@ -13,7 +13,6 @@ import VueApexCharts from "vue3-apexcharts";
 import Maska from 'maska';
 
 import VueFeather from 'vue-feather';
-
 import '@/assets/scss/config/default/app.scss';
 import '@vueform/slider/themes/default.css';
 import '@/assets/scss/mermaid.min.css';

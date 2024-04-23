@@ -10,4 +10,8 @@ export default {
   components: {
   }
 }
+
 </script>
+<style>
+@import "/src/assets/custom-css/dataTables.bootstrap5.min.css";
+</style>

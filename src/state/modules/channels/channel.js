@@ -6,11 +6,13 @@ import axios from "axios";
 export const state = {
   channel: {},
   channels: [],
+  params: {},
 };
 
 export const getters = {
   channels: (state) => state.channels,
   channel: (state) => state.channel,
+  params: (state) => state.params,
 };
 
 export const mutations = {
@@ -20,7 +22,29 @@ export const mutations = {
   setChannel(state, newValue) {
     state.channel = newValue;
   },
-  // 
+  setParams(state, newValue) {
+    let platformArray = [];
+    let groupArray = [];
+    newValue.platform.map((item) => {
+      let isi = {
+        value: item.platform,
+        label: item.platform,
+      };
+      platformArray.push(isi);
+    });
+    newValue.group.map((item) => {
+      let isi = {
+        value: item.id,
+        label: item.display_name,
+      };
+      groupArray.push(isi);
+    });
+    let object = {
+      platform: platformArray,
+      group: groupArray,
+    };
+    state.params = object;
+  },
   deleteChannel(state, channelId) {
     const channel = state.channels.find((channel) => {
       return channel.id == channelId;
@@ -39,7 +63,7 @@ export const mutations = {
 
 export const actions = {
   fetchChannels({ commit }) {
-    apiClient.get("/marketings/channel/channels")
+    apiClient.get("https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels")
       .then((res) => {
         commit("setChannels", res.data);
       })
@@ -68,16 +92,15 @@ export const actions = {
       });
   },
   // fetchParams({ commit }) {
-  //   apiClient.get("/marketings/channel/channels/create").then((res) => {
+  //   apiClient.get("https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels/create").then((res) => {
   //     commit("setParams", res.data);
   //   });
   // },
   setDataChannel({ commit }, channelId) {
-    apiClient
-      .get(`https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels/${channelId}`)
+    apiClient.get(`https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels/${channelId}`)
       .then((res) => {
         commit("setChannel", res.data);
-        // commit("setPositions", res.data.positions);
+        commit("setPositions", res.data.positions);
       })
       .catch((error) => {
         if (error.response && error.response.status === 406) {
@@ -113,8 +136,7 @@ export const actions = {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        apiClient
-          .delete(`https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels/${channelId}`)
+        apiClient.delete(`https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels/${channelId}`)
           .then((response) => {
             Swal.fire({
               title: "Deleted!",
@@ -145,8 +167,7 @@ export const actions = {
     });
   },
   createChannel({ commit }, payload) {
-    apiClient
-      .post("https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels", payload)
+    apiClient.post("https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels", payload)
       .then((res) => {
         Swal.fire({
           title: "Success",
@@ -174,8 +195,7 @@ export const actions = {
       });
   },
   updateChannel({ commit }, payload) {
-    apiClient
-      .put(`https://freetestapi.com/api/v1/airlines/${payload.id}`, payload.data)
+    apiClient.put(`https://dev-backend-arjuna.gawebecik.id/api/marketings/channel/channels/${payload.id}`, payload.data)
       .then((res) => {
         Swal.fire({
           title: "Success",

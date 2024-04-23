@@ -7,16 +7,18 @@ import ModalBasic from "@/components/modals/basic.vue";
 import BasicInput from "@/components/inputs/basic.vue";
 import PageHeader from "@/components/page-header.vue";
 import { getAvatar } from "@/utils/assetsHelper";
-// import vSelect from "vue-select";
-// import "vue-select/dist/vue-select.css";
+import BaseCard from "@/components/cards/base-card.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
   components: {
     Layout,
     ModalBasic,
     BasicInput,
-    // vSelect,
+    vSelect,
     PageHeader,
+    BaseCard
   },
   data() {
     return {
@@ -40,15 +42,6 @@ export default {
           modelValue: "",
           placeholder: "Channel Url",
           required: false,
-        },
-        {
-          id: 3,
-          label: "Type",
-          name: "type",
-          inputType: "text",
-          modelValue: "",
-          placeholder: "Type",
-          required: true,
         },
       ],
       modalShow: false,
@@ -99,7 +92,7 @@ export default {
       return "";
     },
     deleteData() {
-      this.deletechannel(this.channel.id);
+      this.deleteChannel(this.channel.id);
       this.modalShow = false;
       this.checked = false;
       this.$router.push({
@@ -123,14 +116,13 @@ export default {
       }"
     />
     <div class="row">
-      <div class="col-lg-12">
-    <BCard no-body>
-    <BCardHeader>
+        <BaseCard>
+          <template #cardHeader>
             <h6 class="card-title mb-0">
               {{ channel?.display_name }}
             </h6>
-          </BCardHeader>
-          <BCardBody>
+          </template>
+          <template #cardBody>
             <div class="row">
               <div class="col-md-6">
                 <table class="table table-striped">
@@ -193,9 +185,17 @@ export default {
                   <button 
                   type="button"
                   class="btn btn-info btn-sm"
+                  style="margin-right: 6px"
                   @click="openEditModal">
                   <i class="ri-pencil-line align-bottom me-1"></i>
                     Edit Channel
+                  </button>
+                  <button 
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  @click="deleteData">
+                  <i class="bx bx-trash-alt align-bottom me-1"></i>
+                    Delete Channel
                   </button>
                 </div>
               </div>
@@ -232,17 +232,17 @@ export default {
                 </div>
               </div>
             </div>
-          </BCardBody>
-          <BCardFooter>
+          </template>
+          <template #cardFooterStart>
             <div class="hstack gap-2 justify-content-4start">
               <router-link :to="{ name: 'channel.index' }"
                 ><i class="ri-arrow-left-line" style="margin-right: 6px"></i
                 >Back to list
               </router-link>
-            </div>
-          </BCardFooter>
-        </BCard>
-      </div>
+              </div>
+          </template>
+        </BaseCard>
+      
     </div>
     <ModalBasic title="Edit Channel" v-model="modalShow">
       <template #body>
@@ -257,7 +257,44 @@ export default {
               :required="input.required"
             />
           </div>
-          
+          <div class="mt-1">
+            <label for="platform">Platform</label>
+            <vSelect
+              id="platform"
+              name="platform"
+              v-model="formData.platform"
+              :options="params.platform"
+              placeholder="Select platform"
+            >
+              <template #search="{ attributes, events }">
+                <input
+                  class="vs__search"
+                  :required="!formData.platform"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template>
+            </vSelect>
+          </div>
+          <div class="mt-1">
+            <label for="type">Type</label>
+            <vSelect
+              id="type"
+              name="type"
+              v-model="formData.type"
+              :options="params.type"
+              placeholder="Select type"
+            >
+              <template #search="{ attributes, events }">
+                <input
+                  class="vs__search"
+                  :required="!formData.type"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template>
+            </vSelect>
+          </div>
         </form>
       </template>
       <template #footer>

@@ -13,20 +13,25 @@ import BasicInput from "@/components/inputs/basic.vue";
 import ModalBasic from "@/components/modals/basic.vue";
 import PageHeader from "@/components/page-header.vue";
 import BaseCard from "@/components/cards/base-card.vue";
-// import vSelect from "vue-select";
-// import "vue-select/dist/vue-select.css";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 
 export default {
   components: {
     Layout,
     PageHeader,
+    vSelect,
     BaseCard,
     BasicInput,
     ModalBasic,
   },
   data(){
     return {
+      selectedPlatform: null,
+      selectedType: null,
+      optionsType:['Ads','Marketplace'],
+      optionsPlatform: ['Tiktok', 'Shopee', 'Tokopedia'],
       checked: false,
       formData: {},
       modalAdd: false,
@@ -49,24 +54,24 @@ export default {
           placeholder: "Channel Url",
           required: false,
         },
-        {
-          id: 3,
-          label: "Type",
-          name: "type",
-          inputType: "text",
-          modelValue: "",
-          placeholder: "Type",
-          required: true,
-        },
-        {
-          id: 4,
-          label: "Platform",
-          name: "platform",
-          inputType: "text",
-          modelValue: "",
-          placeholder: "Platform",
-          required: true,
-        },
+        // {
+        //   id: 3,
+        //   label: "Platform",
+        //   name: "platform",
+        //   inputType: "text",
+        //   modelValue: "",
+        //   placeholder: "Platform",
+        //   required: true,
+        // },
+        // {
+        //   id: 4,
+        //   label: "Type",
+        //   name: "type",
+        //   inputType: "text",
+        //   modelValue: "",
+        //   placeholder: "Type",
+        //   required: true,
+        // },
       ],
       columns: [
         {
@@ -81,6 +86,7 @@ export default {
           label: "Display Name",
           sortable: true,
           filterable: true,
+          class: "fw-bolder",
           custom: {
             icon: "orange ri-typhoon-line align-bottom me-1",
             routeName: "channel.detail",
@@ -126,16 +132,6 @@ export default {
       },
     };
   },
-  // methods: {
-  //   fetchData() {
-  //     axios
-  //       .get("https://cat-fact.herokuapp.com/facts")
-  //       .then((response) => {
-  //         console.log("Data berhasil", response.data.data);
-  //       })
-  //       .catch((error) => console.log(error));
-  //   },
-  // },
   computed: {
     ...channelComputed,
   },
@@ -162,8 +158,6 @@ export default {
     if (profile) {
       this.name = profile.name;
     }
-  // this.fetchElektroniks()
-    // this.fetchData();
   },
   mounted(){
     this.fetchChannels()
@@ -176,24 +170,17 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader title="User List" pageTitle="User"/>
-    <div class="row">
-      <BaseCard>
-        <template #cardBody>
-          <PageHeader title="Product List" />
+    <PageHeader title="Channel List" />
     <div class="row">
       <BaseCard :tableCard="true" :noFooter="true">
         <template #cardButton>
           <button class="btn btn-primary" @click="clear">
-            <i class="ri-add-circle-line align-bottom me-1"></i>Add Products
+            <i class="ri-add-circle-line align-bottom me-1"></i>Add Channel
           </button>
         </template>
         <template #cardBody>
-          <ClientDatatable :column="columns" :dataTable="channels" v-if="channels.length">
+          <ClientDatatable :column="columns" :dataTable="channels">
           </ClientDatatable>
-        </template>
-      </BaseCard>
-    </div>
         </template>
       </BaseCard>
     </div>
@@ -210,7 +197,44 @@ export default {
               :required="input.required"
             />
           </div>
-          
+          <div class="mt-1">
+            <label for="platform">Platform</label>
+            <vSelect
+              id="platform"
+              name="platform"
+              v-model="selectedPlatform"
+              :options="optionsPlatform"
+              placeholder="Select platform"
+              >
+              <template #search="{ attributes, events }">
+                <input
+                  class="vs__search"
+                  :required="!selectedPlatform"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template>
+            </vSelect>
+          </div>
+          <div class="mt-1">
+            <label for="type">Type</label>
+            <vSelect
+              id="type"
+              name="type"
+              v-model="selectedType"
+              :options="optionsType"
+              placeholder="Select type"
+            >
+              <template #search="{ attributes, events }">
+                <input
+                  class="vs__search"
+                  :required="!selectedType"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template>
+            </vSelect>
+          </div>
         </form>
       </template>
       <template #footer>
