@@ -31,7 +31,12 @@ export default {
       selectedPlatform: null,
       selectedType: null,
       optionsType:['Ads','Marketplace'],
-      optionsPlatform: ['Tiktok', 'Shopee', 'Tokopedia'],
+      optionsPlatform: [
+        {title: 'Tiktok'}, 
+        {title: 'Shopee'}, 
+        {title: 'Tokopedia'},
+        {title: 'YouTube'}
+      ],
       checked: false,
       formData: {},
       modalAdd: false,
@@ -102,16 +107,16 @@ export default {
           headerClass: "text-center",
         },
         {
-          name: "type",
-          label: "Type",
+          name: "platform",
+          label: "Platform",
           sortable: true,
           filterable: true,
           class: "text-end",
           headerClass: "text-center",
         },
         {
-          name: "platform",
-          label: "Platform",
+          name: "type",
+          label: "Type",
           sortable: true,
           filterable: true,
           class: "text-end",
@@ -139,6 +144,7 @@ export default {
     ...channelMethods,
     createData() {
       this.createChannel(this.formData);
+      this.selectedPlatform = this.platform;
       this.modalAdd = !this.modalAdd;
       this.checked = false;
     },
@@ -161,7 +167,7 @@ export default {
   },
   mounted(){
     this.fetchChannels()
-    // this.fetchParams()
+    this.fetchParams()
   }
 };
 
@@ -202,15 +208,16 @@ export default {
             <vSelect
               id="platform"
               name="platform"
-              v-model="selectedPlatform"
+              label="title"
+              v-model="formData.platform"
               :options="optionsPlatform"
+              :reduce="(data) => data.vaule"
               placeholder="Select platform"
               >
-              <template #search="{ attributes, events }">
+              <template>
                 <input
                   class="vs__search"
-                  :required="!selectedPlatform"
-                  v-bind="attributes"
+                  required
                   v-on="events"
                 />
               </template>

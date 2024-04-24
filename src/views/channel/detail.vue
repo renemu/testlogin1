@@ -213,12 +213,12 @@ export default {
                       <th scope="row">Modified:</th>
                       <td>
                         {{ formatDate(channel?.updated_at) }} - by
-                        <router-link
+                        <!-- <router-link
                           :to="{
                             name: 'user.detail',
                             params: { id: channel?.updater?.id },
                           }"
-                          >{{ channel?.updater?.name }}</router-link
+                          >{{ channel?.updater?.name }}</router-link -->
                         >
                       </td>
                     </tr>

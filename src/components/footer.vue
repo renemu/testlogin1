@@ -3,11 +3,11 @@
         <BContainer fluid>
             <BRow>
                 <BCol col sm="6">
-                    {{ new Date().getFullYear() }} © Velzon.
+                    {{ new Date().getFullYear() }} © MrZ.
                 </BCol>
                 <BCol col sm="6">
                     <div class="text-sm-end d-none d-sm-block">
-                        Design & Develop by Themesbrand
+                        Design & Develop by MrZ
                     </div>
                 </BCol>
             </BRow>

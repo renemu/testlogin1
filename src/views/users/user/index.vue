@@ -9,8 +9,8 @@ import Layout from "@/layouts/main.vue";
 import PageHeader from "@/components/page-header";
 import axios from "axios";
 import { actressComputed, actressMethods } from "@/state/helpers.js";
-import BasicInput from "../../components/inputs/basic.vue";
-import BaseCard from "../../components/cards/base-card.vue";
+import BasicInput from "../../../components/inputs/basic.vue";
+import BaseCard from "../../../components/cards/base-card.vue";
 
 export default {
   

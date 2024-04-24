@@ -57,7 +57,7 @@ export default [
       title: "User",
       // authRequired: true,
     },
-    component: () => import("../views/user/index.vue"),
+    component: () => import("../views/users/user/index.vue"),
   },
   {
     path: "/dashboard",
